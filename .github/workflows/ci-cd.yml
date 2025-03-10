@@ -40,17 +40,12 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      # - name: Generate Android Keystore
-      #   run: |
-      #     mkdir -p android/app
-      #     keytool -genkeypair -v -keystore android/app/debug.keystore -storepass android -alias androiddebug -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+      - name: Generate Android files
+        run: |
+          yarn add -D @expo/cli
+          yarn expo prebuild -p android --no-install
 
       - name: Build Android APK
-        # env:
-        #   ANDROID_KEYSTORE_PATH: android/app/debug.keystore
-        #   ANDROID_KEYSTORE_ALIAS: androiddebugkey
-        #   ANDROID_KEYSTORE_PASSWORD: android
-        #   ANDROID_KEY_PASSWORD: android
         run: eas build --platform android --profile preview --non-interactive --no-wait
 
       - name: Cache build artifacts

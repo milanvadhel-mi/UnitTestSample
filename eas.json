@@ -7,7 +7,7 @@
     "preview": {
       "android": {
         "buildType": "apk",
-        "credentialsSource": "local",
+        "gradleCommand": ":app:assembleDebug",
         "withoutCredentials": true
       },
       "env": {
