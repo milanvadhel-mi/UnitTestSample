@@ -51,6 +51,9 @@ jobs:
           yarn add -D @expo/cli
           yarn expo prebuild -p android --no-install
 
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
       - name: Build Android APK
         run: eas build --platform android --profile preview --non-interactive --no-wait
 
