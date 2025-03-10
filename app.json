@@ -38,6 +38,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d97f72f1-e7c4-44d3-acec-f51705714626"
+      }
+    },
+    "owner": "imilan"
   }
 }
