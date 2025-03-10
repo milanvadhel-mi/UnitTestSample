@@ -1,11 +1,15 @@
 {
   "cli": {
-    "version": ">= 5.9.1"
+    "version": ">= 5.9.1",
+    "appVersionSource": "remote"
   },
   "build": {
     "preview": {
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://your-api-url.com"
       }
     },
     "preview2": {
@@ -16,6 +20,9 @@
     "preview3": {
       "developmentClient": true
     },
+    "production": {}
+  },
+  "submit": {
     "production": {}
   }
 } 
