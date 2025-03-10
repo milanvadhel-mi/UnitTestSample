@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      # - name: Type check
+      #   run: yarn tsc --noEmit
+
+      - name: Run tests
+        run: yarn test index.test.tsx
+
+      # - name: Run ESLint
+      #   run: yarn lint
+
+      - name: Setup EAS
+        run: |
+          yarn global add eas-cli
+          eas login -u ${{ secrets.EXPO_USERNAME }} -p ${{ secrets.EXPO_PASSWORD }}
+
+      - name: Build Android APK
+        run: eas build --platform android --profile preview --non-interactive --no-wait
+
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: |
+            android
+            .expo
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build- 

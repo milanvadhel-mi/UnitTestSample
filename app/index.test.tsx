@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import LoginScreen from "./LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import LoginScreen from "./LoginScreen";
 
 const mockNavigation = jest.fn();
 jest.mock("@react-navigation/native", () => {
