@@ -43,13 +43,13 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: List Android Directory
-        run: ls -la android
-
       - name: Generate Android files
         run: |
           yarn add -D @expo/cli
           yarn expo prebuild -p android --no-install
+
+      - name: List Android Directory
+        run: ls -la android
 
       - name: Make gradlew executable
         run: chmod +x android/gradlew
