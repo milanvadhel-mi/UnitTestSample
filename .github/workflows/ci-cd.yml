@@ -44,7 +44,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Debug: List Android Directory
-        run: ls -la android
+        run: ls -la android/
 
       - name: Generate Android files
         run: |
