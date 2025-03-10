@@ -30,7 +30,7 @@ jobs:
       #   run: yarn tsc --noEmit
 
       - name: Run tests
-        run: yarn test index.test.tsx
+        run: yarn test index.test.tsx --watchAll=false
 
       # - name: Run ESLint
       #   run: yarn lint
