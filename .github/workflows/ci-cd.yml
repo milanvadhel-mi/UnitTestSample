@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -31,14 +34,8 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      # - name: Type check
-      #   run: yarn tsc --noEmit
-
       - name: Run tests
         run: yarn test index.test.tsx --watchAll=false
-
-      # - name: Run ESLint
-      #   run: yarn lint
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -46,22 +43,18 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Configure EAS project
+      - name: Generate Android files
         run: |
-          eas init --non-interactive
-          eas build:configure
+          yarn add -D @expo/cli
+          yarn expo prebuild -p android --no-install
 
-      - name: Generate Android Keystore
-        run: |
-          mkdir -p android/app
-          keytool -genkeypair -v -keystore android/app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+      - name: List Android Directory
+        run: ls -la android
+
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
 
       - name: Build Android APK
-        env:
-          ANDROID_KEYSTORE_PATH: android/app/debug.keystore
-          ANDROID_KEYSTORE_ALIAS: androiddebugkey
-          ANDROID_KEYSTORE_PASSWORD: android
-          ANDROID_KEY_PASSWORD: android
         run: eas build --platform android --profile preview --non-interactive --no-wait
 
       - name: Cache build artifacts
